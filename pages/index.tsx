@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { Blog, FilterSection } from "components";
 import { GetServerSideProps } from "next";
+import absoluteUrl from "next-absolute-url";
 import { PostType } from "lib/data";
 import { useRouter } from "next/router";
 import ReactPaginate from "react-paginate";
@@ -94,13 +95,13 @@ export default function Home({ data }: BlogPageProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { query } = context;
-
+  const { req, query } = context;
+  const { origin } = absoluteUrl(req, req.headers.host);
   const pageQueryPath = `?page=${query.page}`;
   const filterQueryPath = query.filterBy ? `&filterBy=${query.filterBy}` : ``;
   const searchQueryPath = query.searchBy ? `&searchBy=${query.searchBy}` : ``;
   const queryPath = pageQueryPath.concat(filterQueryPath, searchQueryPath);
-  const res = await fetch(`http://localhost:3000/api/posts${queryPath}`);
+  const res = await fetch(`${origin}/api/posts${queryPath}`);
   const data = await res.json();
   return {
     props: { data },
