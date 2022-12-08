@@ -18,7 +18,7 @@ const FilterSection = ({ filterAction, searchAction }: FilterSectionProps) => {
         onChange={(e) => searchAction(e.target.value)}
       />
       <select
-        className="text-xl bg-transparent px-4 py-2 outline-none"
+        className="text-xl bg-transparent px-4 py-2 outline-none flex justify-center w-full"
         name="categories"
         defaultValue={currentQuery.filterBy || ""}
         onChange={(e) => filterAction(e.currentTarget.value)}
